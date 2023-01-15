@@ -1,5 +1,6 @@
 # SQLoad
 A Discord bot made for assisting on the concepts of Datamodelling and Databases using OpenAI and Python.
+<center><img src="./bot_icon.jpg" alt="drawing" width="200" style="border-radius:20%"/></center>
 
 ## Adding bot to your server
 You can add the bot to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=1052717746238005310&permissions=274877975552&scope=bot). **NOTE**: You need to have the required permissions (`manage server`/`administrator`) to be able to add the bot to your required server.

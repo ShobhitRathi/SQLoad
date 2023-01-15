@@ -1,18 +1,19 @@
 import os
 import openai
 import discord
-from discord import app_commands
-
 from dotenv import load_dotenv
 
+# Loading Environment Variables
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+# Discord Client connnection
 intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
 
+# Discord Client / Server events
 @client.event
 async def on_message(message):
     ##SQL BASED TASKS
@@ -146,5 +147,5 @@ async def on_message(message):
         embed.set_footer(text="I created this bot using OpenAI - feel free to reach out")
         await message.channel.send(embed=embed)
 
-
+# Discord Client Execute
 client.run(os.getenv("TOKEN_ID"))
