@@ -12,12 +12,6 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
-
-#BUG -[TODO - fix]
-@tree.command(name='touch', description='do not touch the bot please')
-async def self(interaction: discord.Interaction):
-    await interaction.response.send_message(f"It tickles me when you do that") 
 
 @client.event
 async def on_message(message):
@@ -41,7 +35,7 @@ async def on_message(message):
         embed = discord.Embed(title="Your SQL query is: \n\n", color=0x292928)
         embed.add_field(name="", value=f"```sql\nSELECT {response['choices'][0]['text'].strip()}\n```", inline=False)
         await message.channel.send(embed=embed)
-        
+
     elif message.content.startswith(";sqltotext"):
         await message.channel.send("Enter your SQL query:")
         natural_query = (await client.wait_for('message', check=lambda m: m.author == message.author)).content
