@@ -14,7 +14,8 @@ You can add the bot to your server using this [link](https://discord.com/api/oau
 
 To know the commands of the bot start by typing in `;help` - This will list out all the available commands this bot has till now.
 
-For example - if you would like to convert a **natural text** to its equivalent **SQL query** you can do so as 
+## Example
+If you would like to convert a **natural text** to its equivalent **SQL query** you can do so as 
 1. typing `;texttosql` - which will prompt for a database and then a query
 2. feed the database -
 ```
