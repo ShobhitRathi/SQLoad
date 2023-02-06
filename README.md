@@ -6,7 +6,8 @@ A Discord bot made for assisting on the concepts of Datamodelling and Databases 
 </p>
 
 ## Adding bot to your server
-You can add the bot to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=1052717746238005310&permissions=274877975552&scope=bot). **NOTE**: You need to have the required permissions (`manage server`/`administrator`) to be able to add the bot to your required server.
+You can add the bot to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=1052717746238005310&permissions=274877975552&scope=bot). 
+**NOTE**: You need to have the required permissions (`manage server`/`administrator`) to be able to add the bot to your required server.
 
 ## Usage
 
@@ -38,15 +39,17 @@ WHERE employee.person_name = works.person_name AND works.company_name = company.
 ## Commands
 Currently there are these commands available to execute on the server
 1. `;help` - List out the basic description of the bot and the available commands on it.
+    ##### FUNCTIONAL DEPENDENCIES TASKS
+2. `;closure` - prompts for a relational Schema R and the functional Dependencies F, then returns the closure of all attributes
     ##### SQL TASKS
-2. `;texttosql` - prompts for a database and a query, then generates a SQL response query.
-3. `;sqltotext` - prompts for a SQL query, then translates it into its natural language.
+3. `;texttosql` - prompts for a database and a query, then generates a SQL response query.
+4. `;sqltotext` - prompts for a SQL query, then translates it into its natural language.
     ##### DATALOG TASKS
-4. `;datalogtotext` - prompts for a datalog query, then translates it into its natural language.
+5. `;datalogtotext` - prompts for a datalog query, then translates it into its natural language.
     ##### TUPLE RELATIONAL CALCULUS TASKS
-5. `;trctotext` - prompts for a TRC query, then translates it into its natural language.
+6. `;trctotext` - prompts for a TRC query, then translates it into its natural language.
     ##### MISC
-6. `;creator` - gives a little detail about me in case you want to contact :information_desk_person:
+7. `;creator` - gives a little detail about me in case you want to contact :information_desk_person:
 
 ## How it works
 

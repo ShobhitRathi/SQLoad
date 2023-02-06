@@ -1,23 +1,83 @@
 import os
 import openai
 import discord
+import itertools
+from discord import app_commands
+
 from dotenv import load_dotenv
 
-# Loading Environment Variables
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Discord Client connnection
 intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
 
-# Discord Client / Server events
+# NOT REQUIRED RIGHT NOW
+# tree = app_commands.CommandTree(client)
+
+# #BUG -[TODO - fix]
+# @tree.command(name='touch', description='do not touch the bot please')
+# async def self(interaction: discord.Interaction):
+#     await interaction.response.send_message(f"It tickles me when you do that")
+
+def closure(attributes, fds):
+    try:
+        # Split functional dependencies into individual tuples
+        fds = [(fd.split('->')[0], fd.split('->')[1]) for fd in fds]
+        closures = {}
+        for i in range(1, len(attributes) + 2):
+            for attribute_set in itertools.combinations(attributes, i):
+                result = set(attribute_set)
+                modified = True
+                iteration_count = 0
+                while modified:
+                    modified = False
+                    for fd in fds:
+                        a, b = fd
+                        if set(a) <= result:
+                            result |= set(b)
+                            if len(result) > len(attributes):
+                                modified = True
+                    iteration_count += 1
+                    if iteration_count > 1000:
+                        raise Exception("Infinite loop detected : Possible input mismatch (check your input again)")
+                key = "".join(sorted(list(attribute_set))) + "+"
+                closures[key] = result
+        return closures
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
+
 @client.event
 async def on_message(message):
+    ##FUNCTIONAL DEPENDENCIES TASKS
+    if message.content.startswith(";closure"):
+        await message.channel.send("Enter the relational Schema R separated by comma:")
+
+        def check(m):
+            return m.content and m.author == message.author
+
+        attributes = await client.wait_for("message", check=check)
+        attributes = attributes.content.split(',')
+
+        await message.channel.send("Enter the functional dependencies F separated by comma:")
+
+        fds_string = await client.wait_for("message", check=check)
+        fds_string = fds_string.content.split(',')
+
+        result = closure(attributes, fds_string)
+        if isinstance(result, str):
+            await message.channel.send(result)
+        else:
+            formatted_result = ''
+            for key, value in result.items():
+                formatted_result += f'{key}: {list(value)}\n'
+
+            await message.channel.send("Result: \n" + str(formatted_result))
+    
     ##SQL BASED TASKS
-    if message.content.startswith(";texttosql"):
+    elif message.content.startswith(";texttosql"):
         await message.channel.send("Enter your database:")
         table_input = (await client.wait_for('message', check=lambda m: m.author == message.author)).content
         table_input = "###" + table_input + "\n"
@@ -36,7 +96,6 @@ async def on_message(message):
         embed = discord.Embed(title="Your SQL query is: \n\n", color=0x292928)
         embed.add_field(name="", value=f"```sql\nSELECT {response['choices'][0]['text'].strip()}\n```", inline=False)
         await message.channel.send(embed=embed)
-
     elif message.content.startswith(";sqltotext"):
         await message.channel.send("Enter your SQL query:")
         natural_query = (await client.wait_for('message', check=lambda m: m.author == message.author)).content
@@ -127,15 +186,17 @@ async def on_message(message):
                                    "BOT PREFIX - `;` \n\n"
                                    "Currently, This bot accepts the following commands:\n\n"
                                    "0 - `;help` - displays this message\n\n"
+                                   "**FUNCTIONAL DEPENDENCIES TASKS**\n"
+                                   "1 - `;closure` - prompts for a relational Schema R and the functional Dependencies F, then returns the closure of all attributes\n\n"
                                    "**SQL TASKS**\n"
-                                   "1 - `;texttosql` - prompts for a database and a query, then generates a SQL response query\n"
-                                   "2 - `;sqltotext` - prompts for a SQL query, then translates it into its natural language\n\n"
+                                   "2 - `;texttosql` - prompts for a database and a query, then generates a SQL response query\n"
+                                   "3 - `;sqltotext` - prompts for a SQL query, then translates it into its natural language\n\n"
                                    "**DATALOG TASKS**\n"
-                                   "3 - `;datalogtotext` - prompts for a datalog query, then translates it into its natural language\n\n"
-                                   "TUPLE RELATIONAL CALCULUS TASKS**\n"
-                                   "4 - `;trctotext` - prompts for a TRC query, then translates it into its natural language\n\n"
+                                   "4 - `;datalogtotext` - prompts for a datalog query, then translates it into its natural language\n\n"
+                                   "**TUPLE RELATIONAL CALCULUS TASKS**\n"
+                                   "5 - `;trctotext` - prompts for a TRC query, then translates it into its natural language\n\n"
                                    "**MISC\n**"
-                                   "5 - `;creator` - gives details about this bot developer")
+                                   "6 - `;creator` - gives details about this bot developer")
     
     ##MISC
     elif message.content.startswith(";creator"):
@@ -147,5 +208,5 @@ async def on_message(message):
         embed.set_footer(text="I created this bot using OpenAI - feel free to reach out")
         await message.channel.send(embed=embed)
 
-# Discord Client Execute
+
 client.run(os.getenv("TOKEN_ID"))
