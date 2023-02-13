@@ -40,7 +40,7 @@ WHERE employee.person_name = works.person_name AND works.company_name = company.
 Currently there are these commands available to execute on the server
 1. `;help` - List out the basic description of the bot and the available commands on it.
     ##### FUNCTIONAL DEPENDENCIES TASKS
-2. `;closure` - prompts for a relational Schema R and the functional Dependencies F, then returns the closure of all attributes
+2. `;closure` - prompts for a relational Schema R and the functional Dependencies F, then returns the closure of all attributes (100% accuracy)
     ##### SQL TASKS
 3. `;texttosql` - prompts for a database and a query, then generates a SQL response query.
 4. `;sqltotext` - prompts for a SQL query, then translates it into its natural language.
@@ -55,7 +55,7 @@ Currently there are these commands available to execute on the server
 
 The bot uses [OpenAI API](https://openai.com/api/) to generate the required queries from the given prompts, the bot has been coded using [Python 3.9.9](https://www.python.org/) which was then implemented as a discord bot. 
 
-**NOTE:** The answers generated the bot are done using **OpenAI API GPT-3 Model** engine and might not always generate correct response. However the answers generated are mostly precise and accurate to the actual answer _(if they differ)_ and are constantly being improved. 
+**NOTE:** The answers generated the bot are done using **OpenAI API GPT-3 Model** engine and might not always generate correct response. However the answers generated are mostly precise and accurate to the actual answer _(if they differ)_ and are constantly being improved. The tasks listed with (100% accuracy) are always accurate.
 
 To communicate with discord, this bot uses the [discord.py](https://discordpy.readthedocs.io/en/stable/) open-source library and its discord's API.
 
